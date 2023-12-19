@@ -9,13 +9,13 @@ Vue.config.productionTip = false;
 
 new Vue({
   render: (h) => h(App),
-  methods: {
-    alertMessages() {
-      alertMessage(message);
-      alertMessage(messageTwo);
-    },
-  },
-  mounted() {
-    this.alertMessages()
-  },
+  // methods: {
+  //   alertMessages() {
+  //     alertMessage(message);
+  //     alertMessage(messageTwo);
+  //   },
+  // },
+  // mounted() {
+  //   this.alertMessages()
+  // },
 }).$mount("#app");
