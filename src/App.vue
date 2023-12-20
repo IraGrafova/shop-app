@@ -49,7 +49,8 @@ export default {
       }
 
       if (this.filterCategoryId) {
-        filteredProducts = filteredProducts.filter((item) => {item.categoryId === this.filterCategoryId; console.log('itemid='+item.categoryId); console.log('this='+this.filterCategoryId); });
+        console.log(filteredProducts)
+        filteredProducts = filteredProducts.filter(item => item.categoryId == this.filterCategoryId);
         console.log(filteredProducts)
       }
       return filteredProducts;
