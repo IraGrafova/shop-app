@@ -6,7 +6,14 @@
     </div>
 
     <div class="content__catalog">
-      <ProductFilter :price-from.sync="filterPriceFrom" :price-to.sync="filterPriceTo" :category-id.sync="filterCategoryId"/>
+      <ProductFilter
+        :price-from.sync="filterPriceFrom"
+        :price-to.sync="filterPriceTo"
+        :category-id.sync="filterCategoryId"
+        :color.sync="filterColor"
+        
+        :products="products"
+      />
       <section class="catalog">
         <ProductList :products="products" />
         <BasePagination
@@ -35,23 +42,34 @@ export default {
       filterCategoryId: 0,
       page: 1,
       productsPerPage: 3,
+      filterColor: "",
     };
   },
   computed: {
     filteredProducts() {
       let filteredProducts = products;
       if (this.filterPriceFrom > 0) {
-        filteredProducts = filteredProducts.filter(item => item.price > this.filterPriceFrom);
+        filteredProducts = filteredProducts.filter(
+          (item) => item.price > this.filterPriceFrom
+        );
       }
 
       if (this.filterPriceTo > 0) {
-        filteredProducts = filteredProducts.filter(item => item.price < this.filterPriceTo);
+        filteredProducts = filteredProducts.filter(
+          (item) => item.price < this.filterPriceTo
+        );
       }
 
       if (this.filterCategoryId) {
-        console.log(filteredProducts)
-        filteredProducts = filteredProducts.filter(item => item.categoryId == this.filterCategoryId);
-        console.log(filteredProducts)
+        filteredProducts = filteredProducts.filter(
+          (item) => item.categoryId == this.filterCategoryId
+        );
+      }
+
+      if (this.filterColor.length > 0) {
+        filteredProducts = filteredProducts.filter(
+          (item) => item.color == this.filterColor
+        ); //если значение color задано, то фильтруем
       }
       return filteredProducts;
     },

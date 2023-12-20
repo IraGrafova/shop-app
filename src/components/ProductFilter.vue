@@ -55,14 +55,17 @@
                 class="colors__radio sr-only"
                 type="radio"
                 name="color"
-                value="#73B6EA"
+                value="product.color"
+                v-for="(product, index) in products" 
+                :key="index"
                 checked=""
               />
-              <span class="colors__value" style="background-color: #73b6ea">
-              </span>
+              <span class="colors__value"  v-for="(product, index) in products" 
+                :key="index" :style="{'background-color':  product.color}"></span>
+       
             </label>
           </li>
-          <li class="colors__item">
+          <!-- <li class="colors__item">
             <label class="colors__label">
               <input
                 class="colors__radio sr-only"
@@ -126,7 +129,7 @@
                 value="#000" />
               <span class="colors__value" style="background-color: #000"> </span
             ></label>
-          </li>
+          </li> -->
         </ul>
       </fieldset>
 
@@ -233,19 +236,26 @@
 
 <script>
 import categories from "@/data/categories";
+import products from "@/data/products";
 export default {
-  props: ["priceFrom", "priceTo", "categoryId"],
+  props: ["priceFrom", "priceTo", "categoryId", 'color', 'products'],
   data() {
     return {
       currentPriceFrom: 0,
       currentPriceTo: 0,
       currentCategoryId: 0,
+      currentColor: '',
     };
   },
   computed: {
     categories() {
       return categories;
     },
+    // colors() {
+    //   v-for='';
+    //   return 
+    //   // <!-- что указать в key при переборе массива -->
+    // }
   },
   watch: {
     priceTo(value) {
@@ -271,4 +281,5 @@ export default {
     },
   }
 };
+
 </script>
