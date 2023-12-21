@@ -2,7 +2,12 @@
   <aside class="filter">
     <h2 class="filter__title">Фильтры</h2>
 
-    <form class="filter__form form" action="#" method="get" @submit.prevent="submit">
+    <form
+      class="filter__form form"
+      action="#"
+      method="get"
+      @submit.prevent="submit"
+    >
       <fieldset class="form__block">
         <legend class="form__legend">Цена</legend>
         <label class="form__label form__label--price">
@@ -49,20 +54,24 @@
       <fieldset class="form__block">
         <legend class="form__legend">Цвет</legend>
         <ul class="colors">
-          <li class="colors__item">
+          <li
+            class="colors__item"
+            v-for="(color, index) in colors"
+            :key="index"
+          >
             <label class="colors__label">
               <input
                 class="colors__radio sr-only"
                 type="radio"
                 name="color"
-                value="product.color"
-                v-for="(product, index) in products" 
-                :key="index"
+                :value="color"
                 checked=""
+                v-model="colorSelected"
               />
-              <span class="colors__value"  v-for="(product, index) in products" 
-                :key="index" :style="{'background-color':  product.color}"></span>
-       
+              <span
+                class="colors__value"
+                :style="{ 'background-color': color }"
+              ></span>
             </label>
           </li>
           <!-- <li class="colors__item">
@@ -227,7 +236,11 @@
       <button class="filter__submit button button--primery" type="submit">
         Применить
       </button>
-      <button class="filter__reset button button--second" type="button" @click.prevent="reset">
+      <button
+        class="filter__reset button button--second"
+        type="button"
+        @click.prevent="reset"
+      >
         Сбросить
       </button>
     </form>
@@ -238,24 +251,33 @@
 import categories from "@/data/categories";
 import products from "@/data/products";
 export default {
-  props: ["priceFrom", "priceTo", "categoryId", 'color', 'products'],
+  props: ["priceFrom", "priceTo", "categoryId", "colorSelected", "products"],
   data() {
     return {
       currentPriceFrom: 0,
       currentPriceTo: 0,
       currentCategoryId: 0,
-      currentColor: '',
+      currentColor: "",
     };
   },
   computed: {
     categories() {
       return categories;
     },
-    // colors() {
-    //   v-for='';
-    //   return 
-    //   // <!-- что указать в key при переборе массива -->
-    // }
+    colors() {
+      const allColors = products.map((item) => {
+        return item.color;
+      });
+
+      const uniqueColors = allColors.reduce((acc, item) => {
+        if (acc.includes(item)) {
+          return acc; // если значение уже есть, то просто возвращаем аккумулятор
+        }
+        return [...acc, item]; // добавляем к аккумулятору и возвращаем новый аккумулятор
+      }, []);
+
+      return uniqueColors;
+    },
   },
   watch: {
     priceTo(value) {
@@ -266,20 +288,24 @@ export default {
     },
     categoryId(value) {
       this.currentCategoryId = value;
-    }
+    },
+    colorSelected(value) {
+      this.currentColor = value;
+    },
   },
   methods: {
     submit() {
-      this.$emit('update:priceFrom', this.currentPriceFrom);
-      this.$emit('update:priceTo', this.currentPriceTo);
-      this.$emit('update:categoryId', this.currentCategoryId);
+      this.$emit("update:priceFrom", this.currentPriceFrom);
+      this.$emit("update:priceTo", this.currentPriceTo);
+      this.$emit("update:categoryId", this.currentCategoryId);
+      this.$emit("update:colorSelected", this.currentColor);
     },
     reset() {
-      this.$emit('update:priceFrom', 0);
-      this.$emit('update:priceTo', 0);
-      this.$emit('update:categoryId', 0);
+      this.$emit("update:priceFrom", 0);
+      this.$emit("update:priceTo", 0);
+      this.$emit("update:categoryId", 0);
+      this.$emit("update:colorSelected", "");
     },
-  }
+  },
 };
-
 </script>

@@ -21,10 +21,10 @@
             value="#73B6EA"
             v-model="color"
           />
-          <span class="colors__value" style="background-color: #73b6ea"> </span>
+          <span class="colors__value" :style="{'background-color': product.color}"> </span>
         </label>
       </li>
-      <li class="colors__item">
+      <!-- <li class="colors__item">
         <label class="colors__label">
           <input
             class="colors__radio sr-only"
@@ -45,7 +45,7 @@
           />
           <span class="colors__value" style="background-color: #222" > </span>
         </label>
-      </li>
+      </li> -->
     </ul>
   </li>
 </template>
