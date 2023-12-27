@@ -186,7 +186,7 @@
 import categories from "@/data/categories";
 import products from "@/data/products";
 export default {
-  props: ["priceFrom", "priceTo", "categoryId", "colorSelected", "products"],
+  props: ["priceFrom", "priceTo", "categoryId", "colorSelected"],
   data() {
     return {
       currentPriceFrom: 0,
