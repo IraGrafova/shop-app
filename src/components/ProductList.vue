@@ -4,7 +4,6 @@
       :product="item"
       v-for="(item) in products"
       :key="item.id"
-      @gotoPage="(pageName, pageParams) => $emit('gotoPage', pageName, pageParams)"
     />
   </ul>
 </template>
@@ -14,10 +13,7 @@ import ProductItem from "./ProductItem.vue";
 
 export default {
   name: "ProductList",
-
   components: { ProductItem },
   props: { products: Array },
-
-
 };
 </script>

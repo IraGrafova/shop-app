@@ -4,7 +4,6 @@
         <h1 class="content__title">Каталог</h1>
         <span class="content__info"> 152 товара </span>
       </div>
-  
       <div class="content__catalog">
         <ProductFilter
           :price-from.sync="filterPriceFrom"
@@ -15,7 +14,6 @@
         />
         <section class="catalog">
           <ProductList :products="products" 
-          @gotoPage="(pageName, pageParams) => $emit('gotoPage', pageName, pageParams)"
           />
           <BasePagination
             v-model="page"
