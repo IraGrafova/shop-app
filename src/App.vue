@@ -17,9 +17,7 @@ export default {
   data() {
     return {
       currentPage: "main",
-      currentPageParams: {
-
-      }
+      currentPageParams: {}
     };
   },
   methods: {
