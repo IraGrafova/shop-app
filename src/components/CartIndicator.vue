@@ -3,7 +3,7 @@
         <svg width="30" height="21" fill="currentColor">
           <use xlink:href="#icon-cart"></use>
         </svg>
-        <span class="header__count" aria-label="Количество товаров">3</span>
+        <span class="header__count" aria-label="Количество товаров"> {{ $store.state.cartProducts.length }} </span>
       </router-link>  
 </template>
 
@@ -11,6 +11,7 @@
 import router from '@/router';
 
     export default {
-    components: { router }
+    
 }
 </script>
+

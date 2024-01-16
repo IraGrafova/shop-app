@@ -34,7 +34,7 @@
           {{ product.title }}
         </h2>
         <div class="item__form">
-          <form class="form" action="#" method="POST">
+          <form class="form" action="#" method="POST" @submit.prevent="addToCart">
             <b class="item__price">
               {{ product.price | numberFormat}} ₽
             </b>
@@ -104,7 +104,7 @@
                   </svg>
                 </button>
 
-                <input type="text" value="1" name="count">
+                <input type="text" v-model.number="productAmount">
 
                 <button type="button" aria-label="Добавить один товар">
                   <svg width="12" height="12" fill="currentColor">
@@ -177,11 +177,15 @@
 <script>
 import products from '@/data/products';
 import categories from '@/data/categories';
-import gotoPage from '@/helpers/gotoPage';
 import numberFormat from '@/helpers/numberFormat';
 import router from '@/router';
 
 export default {
+  data() {
+return {
+  productAmount: 1
+}
+  },
     filters: {
         numberFormat
     },
@@ -194,7 +198,12 @@ export default {
         }
     },
     methods: {
-        gotoPage
+      addToCart() {
+        this.$store.commit(
+          'addProductToCart', 
+          {productId: this.product.id, amount: this.productAmount}
+        )
+      }
     },
     components: { router }
 }

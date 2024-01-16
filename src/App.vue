@@ -114,6 +114,6 @@
 import CartIndicator from '@/components/CartIndicator';
 
 export default {
-  comments: {CartIndicator}
+  components: {CartIndicator}
 };
 </script>
