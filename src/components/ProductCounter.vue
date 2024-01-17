@@ -6,7 +6,7 @@
       </svg>
     </button>
 
-    <input type="text" v-model.number="currentProductAmount" @change="productCount"/>
+    <input type="text" v-model.number="currentProductAmount"/>
 
     <button type="button" aria-label="Добавить один товар">
       <svg width="12" height="12" fill="currentColor">
@@ -18,6 +18,7 @@
 
 <script>
 import { mapMutations } from 'vuex';
+
 export default {
   props: ["productAmount"],
 
@@ -26,12 +27,13 @@ export default {
   },
 
   watch: {
-    productAmount(value) {
-      this.currentProductAmount = value;
+    currentProductAmount(value) {
+      this.changeProductCount({productId: this.$route.params.id, amount: value});
     },
   },
   methods: {
-    ...mapMutations({productCount: 'addProductToCart'})
+    ...mapMutations({changeProductCount: 'updateCartProductAmount'})
   }
+
 };
 </script>

@@ -22,7 +22,11 @@ export default new Vuex.Store({
       }
     },
     updateCartProductAmount(state, { productId, amount }) {
-      const item = state.cartProducts.find((item) => item.productId === productId);
+      console.log(productId, amount, state.cartProducts)
+
+      const item = state.cartProducts.find((item) => item.productId == productId);
+
+      console.log(item)
 
       if(item) {
         item.amount = amount;
@@ -37,7 +41,7 @@ getters: {
         return state.cartProducts.map(item => {
             return {
                 ...item,
-                product: products.find(p => p.id == item.productId) //тройное равно опять не работает 
+                product: products.find(p => p.id == item.productId) 
             }
         })
     },

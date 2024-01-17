@@ -179,7 +179,7 @@ return {
     },
     computed: {
         product() {
-            return products.find(product => product.id == +this.$route.params.id); // с тремя равно не работает ( Number тоже не помогло )
+            return products.find(product => product.id === this.$route.params.id);
         },
         category() {
             return categories.find(category => category.id === this.product.categoryId);
@@ -187,9 +187,6 @@ return {
     },
     methods: {
       addToCart() {
-
-        console.log(this.productAmount) //1
-
         this.$store.commit(
           'addProductToCart', 
           {productId: this.product.id, amount: this.productAmount}
