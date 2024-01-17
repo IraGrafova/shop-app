@@ -98,7 +98,7 @@
 
             <div class="item__row">
 
-              <ProductCounter :productAmount="productAmount"/>
+              <ProductCounter :productAmount.sync="productAmount"/>
 
               <button class="button button--primery" type="submit">
                 В корзину

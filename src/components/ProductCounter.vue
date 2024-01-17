@@ -29,6 +29,7 @@ export default {
   watch: {
     currentProductAmount(value) {
       this.changeProductCount({productId: this.$route.params.id, amount: value});
+    this.$emit('update:productAmount', value)
     },
   },
   methods: {
