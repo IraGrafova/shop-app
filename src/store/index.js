@@ -22,8 +22,6 @@ export default new Vuex.Store({
       }
     },
     updateCartProductAmount(state, { productId, amount }) {
-      console.log( 'upd  '+amount)
-
       const item = state.cartProducts.find((item) => item.productId == productId);
 
       if(item) {
@@ -37,7 +35,6 @@ export default new Vuex.Store({
 getters: {
     cartDetailProducts(state) {
         return state.cartProducts.map(item => {
-          console.log(item)
             return {
                 ...item,
                 product: products.find(p => p.id == item.productId) 
@@ -46,6 +43,10 @@ getters: {
     },
     cartTotalPrice(state, getters) {
         return getters.cartDetailProducts.reduce((acc, item) => (item.product.price * item.amount) +acc, 0);
+    },
+    cartTotalAmount(state, getters) {
+      return getters.cartDetailProducts.reduce((acc, item) => (item.amount)+acc, 0)
     }
+
 }
 });

@@ -18,39 +18,14 @@
 
 <script>
 import { mapMutations } from 'vuex';
-import { mapGetters } from "vuex";
 
 export default {
   props: ["productAmount", "item"],
 
   data() {
     return {currentProductAmount: 1,
-    globalProductAmount: null
     }
-  },
-
- 
-
-  computed: {
-    ...mapGetters({
-      products: "cartDetailProducts",
-      
-    }),
-    amount() {
-      // return this.item.amount
-      this.products.forEach(el => {
-        console.log(el.amount)
-        console.log(this.item)
-       
-        
-        return el.amount
-      });
-      // this.products.find(el => el.)
-    }
-  },
-
-
-
+  }, 
 
   methods: {
     ...mapMutations({changeProductCount: 'updateCartProductAmount'}),
@@ -62,18 +37,22 @@ export default {
     },
 
     plusProductAmount(amount) {
-      this.currentProductAmount = (amount+1);      
-      console.log(this.products)  
+      this.currentProductAmount = (amount+1); 
     }
   },
 
   watch: {
     currentProductAmount(value) {
-      console.log('watch '+value)
       this.changeProductCount({productId: this.$route.params.id, amount: value});
       this.$emit('update:productAmount', value)
     },
   },
+
+  mounted() {
+    if (this.$route.name == "cart") {
+      this.currentProductAmount = this.item.amount
+    }
+}
 
 };
 </script>

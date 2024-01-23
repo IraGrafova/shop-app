@@ -3,7 +3,9 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="index.html"> Каталог </a>
+          <router-link class="breadcrumbs__link" :to="{name: 'main'}">
+            Каталог
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link"> Корзина </a>
@@ -11,7 +13,7 @@
       </ul>
 
       <h1 class="content__title">Корзина</h1>
-      <span class="content__info"> 3 товара </span>
+      <span class="content__info"> {{ totalAmount }} товара </span>
     </div>
 
     <section class="cart">
@@ -51,6 +53,7 @@ export default {
     ...mapGetters({
       products: "cartDetailProducts",
       totalPrice: "cartTotalPrice",
+      totalAmount: 'cartTotalAmount'
     }),
   },
 

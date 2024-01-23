@@ -47,7 +47,6 @@ export default {
     computed: {
         amount: {
             get() {
-              console.log('cartitem ' +this.item.amount)
                 return this.item.amount;
             },
             set(value) {
