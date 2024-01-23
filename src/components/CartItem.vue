@@ -14,19 +14,9 @@
     <span class="product__code"> Артикул: {{ item.product.id }} </span>
 
     <div class="product__counter form__counter">
-      <button type="button" aria-label="Убрать один товар">
-        <svg width="10" height="10" fill="currentColor">
-          <use xlink:href="#icon-minus"></use>
-        </svg>
-      </button>
 
-      <input type="text" v-model.number="amount" name="count" />
-
-      <button type="button" aria-label="Добавить один товар">
-        <svg width="10" height="10" fill="currentColor">
-          <use xlink:href="#icon-plus"></use>
-        </svg>
-      </button>
+<ProductCounter :productAmount.sync="amount" :item="item"/>
+      
     </div>
 
     <b class="product__price">
@@ -49,23 +39,25 @@
 <script>
 import numberFormat from '@/helpers/numberFormat';
 import { mapMutations } from 'vuex';
+import ProductCounter from './ProductCounter.vue';
 
 export default {
-    filters: {numberFormat},
+    filters: { numberFormat },
     props: ['item'],
     computed: {
         amount: {
             get() {
+              console.log('cartitem ' +this.item.amount)
                 return this.item.amount;
             },
             set(value) {
-                this.$store.commit('updateCartProductAmount', {productId: this.item.productId, amount: value});
+                this.$store.commit('updateCartProductAmount', { productId: this.item.productId, amount: value });
             }
         }
     },
     methods: {
-        ...mapMutations({deleteProduct: 'deleteCartProduct'})
-        
-    }
+        ...mapMutations({ deleteProduct: 'deleteCartProduct' })
+    },
+    components: { ProductCounter }
 }
 </script>

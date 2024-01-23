@@ -18,35 +18,62 @@
 
 <script>
 import { mapMutations } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-  props: ["productAmount"],
+  props: ["productAmount", "item"],
 
   data() {
-    return {currentProductAmount: 1,}
+    return {currentProductAmount: 1,
+    globalProductAmount: null
+    }
   },
 
-  watch: {
-    currentProductAmount(value) {
-      this.changeProductCount({productId: this.$route.params.id, amount: value});
-    this.$emit('update:productAmount', value)
-    },
+ 
+
+  computed: {
+    ...mapGetters({
+      products: "cartDetailProducts",
+      
+    }),
+    amount() {
+      // return this.item.amount
+      this.products.forEach(el => {
+        console.log(el.amount)
+        console.log(this.item)
+       
+        
+        return el.amount
+      });
+      // this.products.find(el => el.)
+    }
   },
+
+
+
+
   methods: {
     ...mapMutations({changeProductCount: 'updateCartProductAmount'}),
 
     minusProductAmount (amount) {
       if(amount != 0) {
-        console.log('amount '+amount)
-        this.changeProductCount({productId: this.$route.params.id, amount: amount-1});
-        this.$emit("update:productAmount", amount - 1);
+        this.currentProductAmount = (amount-1)
       }
     },
 
-    plusProductAmount() {
-
+    plusProductAmount(amount) {
+      this.currentProductAmount = (amount+1);      
+      console.log(this.products)  
     }
-  }
+  },
+
+  watch: {
+    currentProductAmount(value) {
+      console.log('watch '+value)
+      this.changeProductCount({productId: this.$route.params.id, amount: value});
+      this.$emit('update:productAmount', value)
+    },
+  },
 
 };
 </script>

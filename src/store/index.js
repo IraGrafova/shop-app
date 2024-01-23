@@ -22,11 +22,9 @@ export default new Vuex.Store({
       }
     },
     updateCartProductAmount(state, { productId, amount }) {
-      console.log(productId, amount, state.cartProducts)
+      console.log( 'upd  '+amount)
 
       const item = state.cartProducts.find((item) => item.productId == productId);
-
-      console.log(item)
 
       if(item) {
         item.amount = amount;
@@ -39,6 +37,7 @@ export default new Vuex.Store({
 getters: {
     cartDetailProducts(state) {
         return state.cartProducts.map(item => {
+          console.log(item)
             return {
                 ...item,
                 product: products.find(p => p.id == item.productId) 
