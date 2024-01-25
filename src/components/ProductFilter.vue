@@ -183,21 +183,25 @@
 </template>
 
 <script>
-import categories from "@/data/categories";
 import products from "@/data/products";
+import axios from 'axios';
+import {API_BASE_URL} from "@/config";
+
 export default {
-  props: ["priceFrom", "priceTo", "categoryId", "colorSelected"],
+  props: ["priceFrom", "priceTo", "categoryId", "colorSelected", "page"],
   data() {
     return {
       currentPriceFrom: 0,
       currentPriceTo: 0,
       currentCategoryId: 0,
       currentColor: "",
+      categoriesData: null,
+      currentpage: 1
     };
   },
   computed: {
     categories() {
-      return categories;
+      return this.categoriesData ? this.categoriesData.items : [];
     },
     colors() {
       const allColors = products.map((item) => {
@@ -234,6 +238,7 @@ export default {
       this.$emit("update:priceTo", this.currentPriceTo);
       this.$emit("update:categoryId", this.currentCategoryId);
       this.$emit("update:colorSelected", this.currentColor);
+      this.$emit("update:page", this.currentpage);
     },
     reset() {
       this.$emit("update:priceFrom", 0);
@@ -241,6 +246,13 @@ export default {
       this.$emit("update:categoryId", 0);
       this.$emit("update:colorSelected", "");
     },
+    loadCategories() {
+      axios.get(API_BASE_URL+'/api/productCategories')
+      .then(response => this.categoriesData = response.data)
+    }
   },
+  created() {
+    this.loadCategories()
+  }
 };
 </script>

@@ -1,5 +1,7 @@
 <template>
-      <main class="content container">
+  <main class="content container" v-if="productLoading">Загрузка товара...</main>
+  <main class="content container" v-else-if="productLoadingFailed">Не удалось загрузить товар</main>
+      <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -162,27 +164,32 @@
 </template>
 
 <script>
-import products from '@/data/products';
-import categories from '@/data/categories';
+
 import numberFormat from '@/helpers/numberFormat';
 import router from '@/router';
 import ProductCounter from '@/components/ProductCounter.vue';
+import axios from "axios";
+import {API_BASE_URL} from "@/config";
 
 export default {
   data() {
 return {
-  productAmount: 1
+  productAmount: 1,
+  productData: null,
+  productLoading: false,
+  productLoadingFailed: false
 }
   },
+  components: { router,  ProductCounter}, 
     filters: {
         numberFormat
     },
     computed: {
         product() {
-            return products.find(product => product.id === this.$route.params.id);
+            return this.productData;
         },
         category() {
-            return categories.find(category => category.id === this.product.categoryId);
+          return this.productData.category;
         }
     },
     methods: {
@@ -191,8 +198,25 @@ return {
           'addProductToCart', 
           {productId: this.product.id, amount: this.productAmount}
         )
+      },
+      loadProduct() {
+        this.productLoading = true;
+        this.productLoadingFailed = false;
+        axios.get(API_BASE_URL+'/api/products/'+ this.$route.params.id)
+        .then(response => this.productData = response.data)
+        .catch(() =>  this.productLoadingFailed = true)
+        .then(() => this.productLoading = false);
+
       }
     },
-    components: { router,  ProductCounter}
+    created() {
+      this.loadProduct();
+    },
+    watch: {
+      "$route.params.id"() {
+        this.loadProduct();
+      }
+    }
+  
 }
 </script>

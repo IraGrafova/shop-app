@@ -43,7 +43,10 @@ export default {
 
   watch: {
     currentProductAmount(value) {
-      this.changeProductCount({productId: this.$route.params.id, amount: value});
+      if (this.$route.name == "cart") {
+        this.changeProductCount({productId: this.$route.params.id, amount: value});
+        this.$emit('update:productAmount', value)
+      } else       
       this.$emit('update:productAmount', value)
     },
   },
