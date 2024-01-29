@@ -15,7 +15,7 @@
 
     <div class="product__counter form__counter">
 
-<ProductCounter :productAmount.sync="amount" :item="item"/>
+  <ProductCounter :productAmount.sync="amount" :item="item"/>
       
     </div>
 
@@ -50,7 +50,7 @@ export default {
                 return this.item.amount;
             },
             set(value) {
-                this.$store.commit('updateCartProductAmount', { productId: this.item.productId, amount: value });
+                this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: value });
             }
         }
     },

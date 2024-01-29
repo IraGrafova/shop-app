@@ -102,10 +102,12 @@
 
               <ProductCounter :productAmount.sync="productAmount"/>
 
-              <button class="button button--primery" type="submit">
+              <button class="button button--primery" type="submit" :disabled="productAddSending">
                 В корзину
               </button>
             </div>
+            <div v-show="productAdded">Товар добавлен в корзину</div>
+            <div v-show="productAddSending">Добавление товара в корзину...</div>
           </form>
         </div>
       </div>
@@ -170,6 +172,7 @@ import router from '@/router';
 import ProductCounter from '@/components/ProductCounter.vue';
 import axios from "axios";
 import {API_BASE_URL} from "@/config";
+import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -177,7 +180,10 @@ return {
   productAmount: 1,
   productData: null,
   productLoading: false,
-  productLoadingFailed: false
+  productLoadingFailed: false,
+
+  productAdded: false,
+  productAddSending: false,
 }
   },
   components: { router,  ProductCounter}, 
@@ -186,18 +192,25 @@ return {
     },
     computed: {
         product() {
-            return this.productData;
+            return {...this.productData, image: this.productData.image.file.url}; 
         },
         category() {
           return this.productData.category;
         }
     },
     methods: {
+      ...mapActions(['addProductToCart']),
+
       addToCart() {
-        this.$store.commit(
-          'addProductToCart', 
-          {productId: this.product.id, amount: this.productAmount}
-        )
+        this.productAdded = false;
+        this.productAddSending = true;
+
+        this.addProductToCart({productId: this.product.id, amount: this.productAmount})
+          .then(() => {
+            this.productAdded = true;
+            this.productAddSending = false;
+          })
+
       },
       loadProduct() {
         this.productLoading = true;
