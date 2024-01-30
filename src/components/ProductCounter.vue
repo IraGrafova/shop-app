@@ -29,6 +29,7 @@ export default {
 
   methods: {
     ...mapMutations({changeProductCount: 'updateCartProductAmount'}),
+    
 
     minusProductAmount (amount) {
       if(amount != 0) {
@@ -45,9 +46,9 @@ export default {
     currentProductAmount(value) {
       if (this.$route.name == "cart") {
         this.changeProductCount({productId: this.$route.params.id, amount: value});
-        this.$emit('update:productAmount', value)
+        this.$emit('update:productAmount', value)   //нужен для обновления данных в корзине: итоговая сумма и сумма за количество товара, синхронизирован с CartItem
       } else       
-      this.$emit('update:productAmount', value)
+      this.$emit('update:productAmount', value) //синхронизирован с ProductPage
     },
   },
 

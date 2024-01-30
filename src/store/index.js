@@ -13,7 +13,7 @@ export default new Vuex.Store({
   },
   mutations: {
     
-    updateCartProductAmount(state, { productId, amount }) {
+    updateCartProductAmount(state, { productId, amount }) {   //если товар в карзине есть, то мы этому товару присваиваем входящий amount
       const item = state.cartProducts.find((item) => item.productId == productId);
    
       if(item) {
@@ -78,6 +78,7 @@ actions: {
     })
     
   },
+  
   addProductToCart(context, {productId, amount}) {
     return axios.post(API_BASE_URL+'/api/baskets/products', {
       productId: productId,
@@ -92,6 +93,7 @@ actions: {
       context.commit('syncCartProducts', response.data.items)
     })
   },
+
   updateCartProductAmount(context, {productId, amount}) {
     context.commit('updateCartProductAmount', {productId, amount});
     console.log('actions upd amounts '+amount)
