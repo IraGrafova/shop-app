@@ -48,10 +48,11 @@ export default {
     computed: {
         amount: {
             get() {
+              console.log('get')
                 return this.item.amount;
             },
             set(value) {
-              
+              console.log('set')
                 this.updateCartProductAmount({ productId: this.item.productId, amount: value });
             }
         }
@@ -64,7 +65,6 @@ export default {
     },
     watch: {
       amount(value) {
-        
         this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: value });
       }
     }

@@ -21,7 +21,6 @@ export default new Vuex.Store({
       }
     },
     deleteCartProduct(state, productId) {
-      console.log('del')
       state.cartProducts = state.cartProducts.filter(item => item.productId !== productId);
     },
     updateUserAccessKey(state, accessKey) {
@@ -29,6 +28,7 @@ export default new Vuex.Store({
     },
     updateCartProductsData(state, items) {
       state.cartProductsData = items;
+      // debugger
     },
     syncCartProducts(state) {
       state.cartProducts = state.cartProductsData.map(item => {
@@ -41,8 +41,12 @@ export default new Vuex.Store({
 },
 getters: {
     cartDetailProducts(state) {
+      console.log(state.cartProducts)
         return state.cartProducts.map(item => {
+          console.log('item')
+          // console.log(state.cartProductsData)
           const product = state.cartProductsData.find(p => p.product.id == item.productId).product;
+          // console.log('product '+product)
             return {
                 ...item,
                 product: {
@@ -56,6 +60,7 @@ getters: {
         return getters.cartDetailProducts.reduce((acc, item) => (item.product.price * item.amount) +acc, 0);
     },
     cartTotalAmount(state, getters) {
+      console.log('total')
       return getters.cartDetailProducts.reduce((acc, item) => (item.amount)+acc, 0)
     }
 
@@ -95,6 +100,7 @@ actions: {
   },
 
   updateCartProductAmount(context, {productId, amount}) {
+    
     context.commit('updateCartProductAmount', {productId, amount});
     if(amount < 1) {
       return;
@@ -124,8 +130,9 @@ actions: {
       params: {
         userAccessKey: context.state.userAccessKey
       }
-    }).then(response => {console.log('res')
-    context.commit('updateCartProductsData', response.data.items)
+    }).then(response => {
+      console.log('res')
+    context.commit('updateCartProductsData', response.data.items);
   }).catch(() => {
     context.commit('syncCartProducts')
   })
