@@ -42,6 +42,7 @@ import { mapMutations } from 'vuex';
 import ProductCounter from './ProductCounter.vue';
 
 export default {
+  components: { ProductCounter },
     filters: { numberFormat },
     props: ['item'],
     computed: {
@@ -50,14 +51,22 @@ export default {
                 return this.item.amount;
             },
             set(value) {
-              console.log('CartItem set ' +value)
-                this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: value });
+              
+                this.updateCartProductAmount({ productId: this.item.productId, amount: value });
             }
         }
     },
     methods: {
-        ...mapMutations({ deleteProduct: 'deleteCartProduct' })
+        ...mapMutations(["deleteCartProduct", "updateCartProductAmount"]),
+        deleteProduct() {
+          this.$store.dispatch('deleteCartProduct', { productId: this.item.productId});
+        }
     },
-    components: { ProductCounter }
+    watch: {
+      amount(value) {
+        
+        this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: value });
+      }
+    }
 }
 </script>

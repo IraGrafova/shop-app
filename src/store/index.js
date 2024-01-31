@@ -21,6 +21,7 @@ export default new Vuex.Store({
       }
     },
     deleteCartProduct(state, productId) {
+      console.log('del')
       state.cartProducts = state.cartProducts.filter(item => item.productId !== productId);
     },
     updateUserAccessKey(state, accessKey) {
@@ -69,8 +70,7 @@ actions: {
     .then(response => {
       if (!context.state.userAccessKey) {
         localStorage.setItem('userAccessKey', response.data.user.accessKey);
-        context.commit('updateUserAccessKey', response.data.user.accessKey)
-        
+        context.commit('updateUserAccessKey', response.data.user.accessKey);
       }
 
       context.commit('updateCartProductsData', response.data.items);
@@ -78,7 +78,7 @@ actions: {
     })
     
   },
-  
+
   addProductToCart(context, {productId, amount}) {
     return axios.post(API_BASE_URL+'/api/baskets/products', {
       productId: productId,
@@ -96,13 +96,11 @@ actions: {
 
   updateCartProductAmount(context, {productId, amount}) {
     context.commit('updateCartProductAmount', {productId, amount});
-    console.log('actions upd amounts '+amount)
     if(amount < 1) {
-      console.log('amount < 1')
       return;
     } 
 
-    return axios.post(API_BASE_URL+'/api/baskets/products', {
+    return axios.put(API_BASE_URL+'/api/baskets/products', {
       productId: productId,
       quantity: amount
     }, {
@@ -112,13 +110,25 @@ actions: {
     }
     ).then(response => {
       response.data.items.forEach(element => {
-        console.log(element.quantity)
       })
-      context.commit('updateCartProductsData', response.data.items);
-      
+      context.commit('updateCartProductsData', response.data.items);  
     }).catch(() => {
       context.commit('syncCartProducts', response.data.items)
     })
+  },
+  deleteCartProduct(context, {productId}) {
+    context.commit('deleteCartProduct', { productId });
+    
+    return axios.delete(API_BASE_URL+'/api/baskets/products', {
+      data: { productId },
+      params: {
+        userAccessKey: context.state.userAccessKey
+      }
+    }).then(response => {console.log('res')
+    context.commit('updateCartProductsData', response.data.items)
+  }).catch(() => {
+    context.commit('syncCartProducts')
+  })
   }
 }
 });
