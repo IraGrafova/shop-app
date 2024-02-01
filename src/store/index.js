@@ -41,17 +41,8 @@ export default new Vuex.Store({
 },
 getters: {
     cartDetailProducts(state) {
-      console.log(state.cartProducts.length)
         return state.cartProducts.map(item => {
-          console.log('item', item)
-          console.log(state.cartProductsData.length)
-          if (state.cartProductsData.length == 0) {
-return
-            
-          }
-          else  {
-            console.log('> 0 ')
-const product = state.cartProductsData.find(p => p.product.id == item.productId).product;
+          const product = state.cartProductsData.find(p => p.product.id == item.productId).product;
             return {
                 ...item,
                 product: {
@@ -59,14 +50,16 @@ const product = state.cartProductsData.find(p => p.product.id == item.productId)
                   image: product.image.file.url
                 }
             }
-          }
+          
         })
     },
     cartTotalPrice(state, getters) {
+     
+
         return getters.cartDetailProducts.reduce((acc, item) => (item.product.price * item.amount) +acc, 0);
+      
     },
     cartTotalAmount(state, getters) {
-      console.log('cartTotalAmount')
       return getters.cartDetailProducts.reduce((acc, item) => (item.amount)+acc, 0)
     }
 
@@ -137,10 +130,10 @@ actions: {
         userAccessKey: context.state.userAccessKey
       }
     }).then(response => {
-      console.log('res')
     context.commit('updateCartProductsData', response.data.items);
+    
   }).catch(() => {
-    context.commit('syncCartProducts')
+    context.commit('syncCartProducts');
   })
   }
 }
