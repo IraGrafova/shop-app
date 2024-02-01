@@ -56,23 +56,18 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(["deleteCartProduct", "updateCartProductAmount"]),
+        ...mapMutations(["deleteCartProduct", "updateCartProductAmount", 'syncCartProducts']),
         deleteProduct() {
           this.$store.dispatch('deleteCartProduct', { productId: this.item.productId});
         }
     },
     watch: {
       amount(value) {
-        // this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: value });
-// console.log(typeof value)
         if (typeof value === 'string') {
-          console.log('value === !isNaN')
-          this.$store.commit('syncCartProducts');
+          this.syncCartProducts;
         } else if (value === 0) {
-          console.log('value = 0')
           this.deleteProduct();
         } else {
-          console.log('value updateCartProductAmount')
           this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: value });
         }
         }
