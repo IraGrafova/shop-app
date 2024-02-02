@@ -71,7 +71,6 @@ export default {
           this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: value });
         }
         }
-        
     }
 }
 </script>
