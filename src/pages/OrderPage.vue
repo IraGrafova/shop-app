@@ -83,26 +83,16 @@
 
         <div class="cart__block">
           <ul class="cart__orders">
-            <li class="cart__order">
-              <h3>Смартфон Xiaomi Redmi Note 7 Pro 6/128GB</h3>
-              <b>18 990 ₽</b>
-              <span>Артикул: 150030</span>
-            </li>
-            <li class="cart__order">
-              <h3>Гироскутер Razor Hovertrax 2.0ii</h3>
-              <b>4 990 ₽</b>
-              <span>Артикул: 150030</span>
-            </li>
-            <li class="cart__order">
-              <h3>Электрический дрифт-карт Razor Lil’ Crazy</h3>
-              <b>8 990 ₽</b>
-              <span>Артикул: 150030</span>
-            </li>
+            <li class="cart__order" v-for="item in products" :key="item.id">
+              <h3>{{ item.product.title }}</h3>
+              <b>{{ item.product.price * item.amount}} ₽</b>
+              <span>Артикул: {{ item.id }}</span>
+            </li>            
           </ul>
           
           <div class="cart__total">
             <p>Доставка: <b>500 ₽</b></p>
-            <p>Итого: <b>3</b> товара на сумму <b>37 970 ₽</b></p>
+            <p>Итого: <b>{{ totalAmount }}</b> товара на сумму <b>{{ totalPrice | numberFormat }} ₽</b></p> подумай над итого и над итоговой суммой
           </div>
 
           <button class="cart__button button button--primery" type="submit">
@@ -125,6 +115,7 @@
     import BaseFormTextarea from '@/components/BaseFormTextarea.vue';
     import { API_BASE_URL } from '@/config';
     import axios from 'axios';
+    import { mapGetters } from "vuex";
 
     export default{
         components: { BaseFormText, BaseFormTextarea},
@@ -133,6 +124,7 @@
             formData: {},
             formError: {},
             formErrorMessage: '',
+           
         };
     },
     methods: {
@@ -156,6 +148,25 @@
                 this.formErrorMessage = error.response.data.error.message;
             })
         }
+    },
+
+    computed: {
+        // cartProductsOrder() {
+        // return this.$store.state.cartProductsData
+        // },
+        ...mapGetters({
+      products: "cartDetailProducts",
+      totalPrice: "cartTotalPrice",
+      totalAmount: 'cartTotalAmount'
+    }),
+    },
+    created(){
+
+    },
+    mounted() {
+        // console.log(cartProducts)
+        // this.cartProducts = this.$state.cartProducts;
+        // console.log(this.cartProducts)
     }
 }
 </script>

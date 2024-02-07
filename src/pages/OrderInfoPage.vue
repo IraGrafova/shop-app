@@ -13,7 +13,7 @@
         </li>
       </ul>
 
-      <h1 class="content__title">Заказ оформлен <span>№ 23621</span></h1>
+      <h1 class="content__title">Заказ оформлен <span>№ {{ orderInfoData.id }}</span></h1>
     </div>
 
     <section class="cart">
