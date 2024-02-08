@@ -59,7 +59,7 @@
 
         <div class="cart__block">
           <ul class="cart__orders">
-            <li class="cart__order" v-for="(item) in orderInfoData.basket.items"
+            <li class="cart__order" v-for="(item) in orderInfoData.basket?.items"
       :key="item.id">
               <h3>{{ item.product.title }}</h3>
               <b>{{ item.product.price }} ₽</b>
@@ -69,7 +69,7 @@
 
           <div class="cart__total">
             <p>Доставка: <b>500 ₽</b></p>
-            <p>Итого: <b>{{ orderInfoData.basket.items.length }}</b> товара на сумму <b> {{ orderInfoData.totalPrice }}</b></p>
+            <p>Итого: <b>{{ totalAmountOrder }}</b> товара на сумму <b> {{ orderInfoData.totalPrice }}</b></p>
           </div>
         </div>
       </form>
@@ -84,16 +84,31 @@ export default {
       orderInfoData: {},
     };
   },
+  computed: {
+
+    totalAmountOrder() {
+        return this.orderInfoData.basket?.items.reduce(
+        (acc, item) => item.quantity + acc,
+        0
+      );
+    }
+  },
   created() {
+    
     if (
       this.$store.state.orderInfo &&
       this.$store.state.orderInfo.id == this.$route.params.id
     ) {
+        // this.orderInfoData = this.$store.state.orderInfo
       return;
     }
-    this.$store.dispatch("loadOrderInfo", this.$route.params.id).then(() => {
-      this.orderInfoData = this.$store.state.orderInfo;
-    });
+    this.$store.dispatch("loadOrderInfo", this.$route.params.id).then(() => {this.orderInfoData = this.$store.state.orderInfo;})
+    
   },
+watch:{
+    $route() {
+        this.$store.dispatch("loadOrderInfo", this.$route.params.id).then(() => {this.orderInfoData = this.$store.state.orderInfo;})
+    }
+}
 };
 </script>

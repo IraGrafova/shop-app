@@ -116,8 +116,10 @@
     import { API_BASE_URL } from '@/config';
     import axios from 'axios';
     import { mapGetters } from "vuex";
+    import numberFormat from "@/helpers/numberFormat";
 
     export default{
+        filters: { numberFormat },
         components: { BaseFormText, BaseFormTextarea},
     data() {
         return {
@@ -149,24 +151,12 @@
             })
         }
     },
-
     computed: {
-        // cartProductsOrder() {
-        // return this.$store.state.cartProductsData
-        // },
         ...mapGetters({
       products: "cartDetailProducts",
       totalPrice: "cartTotalPrice",
       totalAmount: 'cartTotalAmount'
     }),
     },
-    created(){
-
-    },
-    mounted() {
-        // console.log(cartProducts)
-        // this.cartProducts = this.$state.cartProducts;
-        // console.log(this.cartProducts)
-    }
 }
 </script>
