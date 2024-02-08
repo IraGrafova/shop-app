@@ -3,9 +3,9 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="index.html">
+            <router-link class="breadcrumbs__link" :to="{name: 'main'}">
             Каталог
-          </a>
+        </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link" href="cart.html">
@@ -23,7 +23,7 @@
         Корзина
       </h1>
       <span class="content__info">
-        3 товара
+        {{ totalAmount }} товара
       </span>
     </div>
 
@@ -92,7 +92,7 @@
           
           <div class="cart__total">
             <p>Доставка: <b>500 ₽</b></p>
-            <p>Итого: <b>{{ totalAmount }}</b> товара на сумму <b>{{ totalPrice | numberFormat }} ₽</b></p> подумай над итого и над итоговой суммой
+            <p>Итого: <b>{{ totalAmount }}</b> товара на сумму <b>{{ totalPrice | numberFormat }} ₽</b></p>
           </div>
 
           <button class="cart__button button button--primery" type="submit">
