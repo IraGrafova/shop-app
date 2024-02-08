@@ -94,12 +94,11 @@ export default {
     }
   },
   created() {
-    
     if (
       this.$store.state.orderInfo &&
       this.$store.state.orderInfo.id == this.$route.params.id
     ) {
-        // this.orderInfoData = this.$store.state.orderInfo
+        this.orderInfoData = this.$store.state.orderInfo
       return;
     }
     this.$store.dispatch("loadOrderInfo", this.$route.params.id).then(() => {this.orderInfoData = this.$store.state.orderInfo;})
